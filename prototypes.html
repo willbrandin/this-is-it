@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ThisIsIt — UI Prototypes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #08080a;
+    --bg-elevated: #111114;
+    --bg-card: #16161a;
+    --amber: #f0a500;
+    --amber-glow: rgba(240, 165, 0, 0.15);
+    --amber-dim: #b37a00;
+    --white: #f2f0ed;
+    --gray-100: #e0ddd8;
+    --gray-300: #9a9690;
+    --gray-500: #5a5752;
+    --gray-700: #2a2926;
+    --gray-800: #1c1c1f;
+    --red: #ff4d4d;
+    --green: #34d399;
+    --blue: #60a5fa;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --phone-w: 340px;
+    --phone-h: 700px;
+    --phone-radius: 44px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { background: var(--bg); color: var(--white); scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ─── Grain ─── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ─── Header ─── */
+  .pg-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(8, 8, 10, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--gray-700);
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .pg-logo {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--amber);
+  }
+
+  .pg-logo span {
+    color: var(--gray-500);
+    font-weight: 400;
+    font-size: 0.8rem;
+    margin-left: 8px;
+  }
+
+  .pg-nav {
+    display: flex;
+    gap: 4px;
+  }
+
+  .pg-nav-btn {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: transparent;
+    border: 1px solid var(--gray-700);
+    color: var(--gray-300);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .pg-nav-btn:hover { border-color: var(--gray-500); color: var(--white); }
+  .pg-nav-btn.active { background: var(--amber-glow); border-color: var(--amber); color: var(--amber); }
+
+  .pg-timer {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--gray-500);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .pg-timer .time { color: var(--amber); font-size: 0.85rem; }
+
+  .timer-dot {
+    width: 4px;
+    height: 4px;
+    background: var(--amber);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ─── Screen Display ─── */
+  .pg-stage {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 60px 32px 80px;
+    min-height: calc(100vh - 60px);
+    gap: 60px;
+  }
+
+  .pg-screen-wrapper {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    animation: screenIn 0.4s ease;
+  }
+
+  .pg-screen-wrapper.visible { display: flex; }
+
+  @keyframes screenIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .pg-screen-title {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .pg-screen-desc {
+    font-size: 0.85rem;
+    color: var(--gray-300);
+    text-align: center;
+    max-width: 360px;
+    line-height: 1.5;
+  }
+
+  .pg-screen-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .pg-tag {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 5px 12px;
+    border-radius: 6px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--gray-700);
+    color: var(--gray-500);
+  }
+
+  .pg-tag.amber { border-color: rgba(240,165,0,0.3); color: var(--amber); background: rgba(240,165,0,0.06); }
+
+  /* ─── Phone Frame (larger for playground) ─── */
+  .phone-frame {
+    width: var(--phone-w);
+    height: var(--phone-h);
+    border-radius: var(--phone-radius);
+    border: 2px solid var(--gray-700);
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.03),
+      0 50px 100px rgba(0,0,0,0.5),
+      0 0 200px rgba(240,165,0,0.03),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+    transition: transform 0.3s ease;
+  }
+
+  .phone-frame:hover { transform: translateY(-4px); }
+
+  .phone-frame::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 30px;
+    background: var(--bg);
+    border-radius: 0 0 20px 20px;
+    z-index: 10;
+    border: 2px solid var(--gray-700);
+    border-top: none;
+  }
+
+  .phone-screen {
+    position: absolute;
+    inset: 2px;
+    border-radius: calc(var(--phone-radius) - 2px);
+    overflow: hidden;
+    background: #0c0c0e;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ─── Shared App Components ─── */
+  .app-status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 24px 6px;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--gray-300);
+    flex-shrink: 0;
+  }
+
+  .app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 20px 12px;
+    flex-shrink: 0;
+  }
+
+  .app-logo {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--amber);
+  }
+
+  .app-icon-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--gray-800);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+  }
+
+  .app-global-timer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 7px 20px;
+    background: linear-gradient(90deg, rgba(240,165,0,0.08), rgba(240,165,0,0.03));
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--amber);
+    flex-shrink: 0;
+  }
+
+  .app-bottom-nav {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: rgba(12, 12, 14, 0.95);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--gray-800);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 12px;
+    border-radius: 0 0 calc(var(--phone-radius) - 2px) calc(var(--phone-radius) - 2px);
+    z-index: 5;
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    font-size: 0.5rem;
+    color: var(--gray-500);
+  }
+
+  .nav-item.active { color: var(--amber); }
+  .nav-item svg { width: 22px; height: 22px; }
+
+  .nav-capture {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--amber), #ffd666);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -8px;
+    box-shadow: 0 4px 20px rgba(240, 165, 0, 0.3);
+  }
+
+  .nav-capture svg { color: var(--bg); width: 22px; height: 22px; }
+
+  /* ─── Camera ─── */
+  .camera-screen {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #0a0a0c;
+  }
+
+  .camera-viewfinder {
+    flex: 1;
+    margin: 8px 8px 0;
+    border-radius: 24px;
+    background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1a 50%, #1a1a2e 100%);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .camera-viewfinder::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+  }
+
+  .camera-grid {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+  }
+
+  .camera-grid > div { border: 0.5px solid rgba(255,255,255,0.06); }
+
+  .camera-center-text {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: rgba(255,255,255,0.15);
+    z-index: 1;
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  .camera-top-bar {
+    position: absolute;
+    top: 14px;
+    left: 18px;
+    right: 18px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 2;
+  }
+
+  .camera-pill {
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(8px);
+    border-radius: 20px;
+    padding: 7px 16px;
+    font-size: 0.65rem;
+    font-family: var(--font-mono);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .camera-controls {
+    padding: 22px 0 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    flex-shrink: 0;
+  }
+
+  .camera-mode-tabs {
+    display: flex;
+    gap: 22px;
+    font-size: 0.7rem;
+    color: var(--gray-500);
+  }
+
+  .camera-mode-tabs .active { color: var(--amber); font-weight: 600; }
+
+  .camera-bottom-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    padding-bottom: 8px;
+  }
+
+  .camera-shutter {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 3px solid var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .camera-shutter-inner {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--amber), #ffd666);
+  }
+
+  .camera-secondary-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--gray-800);
+    border: 1px solid var(--gray-700);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray-300);
+  }
+
+  /* ─── Profile ─── */
+  .profile-screen {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 64px;
+  }
+
+  .profile-screen::-webkit-scrollbar { display: none; }
+
+  .profile-cover {
+    height: 110px;
+    background: linear-gradient(135deg, rgba(240,165,0,0.15), rgba(240,165,0,0.05));
+    position: relative;
+  }
+
+  .profile-avatar-large {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--amber), #ffd666);
+    border: 3px solid var(--bg);
+    position: absolute;
+    bottom: -36px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: var(--bg);
+  }
+
+  .profile-info {
+    text-align: center;
+    padding: 44px 20px 16px;
+  }
+
+  .profile-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 2px;
+  }
+
+  .profile-handle {
+    font-size: 0.75rem;
+    color: var(--gray-500);
+    margin-bottom: 10px;
+  }
+
+  .profile-bio {
+    font-size: 0.8rem;
+    color: var(--gray-300);
+    line-height: 1.4;
+    margin-bottom: 16px;
+  }
+
+  .profile-stats {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    padding: 14px 0;
+    border-top: 1px solid var(--gray-800);
+    border-bottom: 1px solid var(--gray-800);
+    margin-bottom: 16px;
+  }
+
+  .profile-stat { text-align: center; }
+
+  .profile-stat-num {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--amber);
+  }
+
+  .profile-stat-label {
+    font-size: 0.6rem;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .profile-today-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  .profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    padding: 0 4px;
+  }
+
+  .profile-grid-item {
+    aspect-ratio: 1;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .grid-img-1 { background: linear-gradient(135deg, #1a2a3e, #0f1f3e); }
+  .grid-img-2 { background: linear-gradient(135deg, #3e1a2a, #3e0f1f); }
+  .grid-img-3 { background: linear-gradient(135deg, #1a3e2a, #0f3e1f); }
+  .grid-img-4 { background: linear-gradient(135deg, #3e2a1a, #3e1f0f); }
+
+  .post-countdown-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    color: var(--amber);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border: 1px solid rgba(240,165,0,0.2);
+  }
+
+  /* ─── Discover ─── */
+  .discover-screen {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 64px;
+  }
+
+  .discover-screen::-webkit-scrollbar { display: none; }
+
+  .discover-search {
+    margin: 8px 14px;
+    padding: 11px 16px;
+    background: var(--gray-800);
+    border-radius: 14px;
+    font-size: 0.75rem;
+    color: var(--gray-500);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .discover-trending-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--amber);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    padding: 12px 20px 8px;
+  }
+
+  .discover-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 3px;
+    padding: 0 3px;
+  }
+
+  .discover-grid-item {
+    aspect-ratio: 1;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .discover-grid-item:nth-child(1) { background: linear-gradient(135deg, #2a1a3e, #1a0f3e); }
+  .discover-grid-item:nth-child(2) { background: linear-gradient(135deg, #1a3e3e, #0f3e2a); grid-row: span 2; aspect-ratio: auto; }
+  .discover-grid-item:nth-child(3) { background: linear-gradient(135deg, #3e3e1a, #3e2a0f); }
+  .discover-grid-item:nth-child(4) { background: linear-gradient(135deg, #3e1a1a, #3e0f0f); }
+  .discover-grid-item:nth-child(5) { background: linear-gradient(135deg, #1a3e1a, #0f3e0f); }
+  .discover-grid-item:nth-child(6) { background: linear-gradient(135deg, #1a1a3e, #0f0f3e); }
+
+  .discover-overlay {
+    position: absolute;
+    bottom: 6px;
+    left: 6px;
+    font-size: 0.55rem;
+    color: var(--white);
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+    padding: 3px 7px;
+    border-radius: 4px;
+  }
+
+  /* ─── All Screens View ─── */
+  .pg-all-screens {
+    display: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 48px;
+    padding: 60px 32px 80px;
+  }
+
+  .pg-all-screens.visible { display: flex; }
+
+  .pg-all-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .pg-all-item .phone-frame {
+    --phone-w: 260px;
+    --phone-h: 540px;
+    --phone-radius: 34px;
+  }
+
+  .pg-all-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  /* ─── Footer ─── */
+  .pg-footer {
+    padding: 32px;
+    text-align: center;
+    border-top: 1px solid var(--gray-800);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--gray-500);
+  }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 700px) {
+    .pg-header { padding: 12px 16px; flex-wrap: wrap; gap: 12px; }
+    .pg-nav { flex-wrap: wrap; }
+    .pg-timer { display: none; }
+    .pg-stage { padding: 32px 16px 60px; }
+    .phone-frame { --phone-w: 300px; --phone-h: 620px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── Header ─── -->
+<div class="pg-header">
+  <div class="pg-logo">ThisIsIt <span>Prototypes</span></div>
+  <div class="pg-nav">
+    <button class="pg-nav-btn active" onclick="showScreen('all')">All Screens</button>
+    <button class="pg-nav-btn" onclick="showScreen('feed')">Feed</button>
+    <button class="pg-nav-btn" onclick="showScreen('capture')">Capture</button>
+    <button class="pg-nav-btn" onclick="showScreen('profile')">Profile</button>
+    <button class="pg-nav-btn" onclick="showScreen('discover')">Discover</button>
+  </div>
+  <div class="pg-timer">
+    <div class="timer-dot"></div>
+    Reset <span class="time" id="pg-countdown">--:--:--</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- ALL SCREENS VIEW                                -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="pg-all-screens visible" id="view-all">
+
+  <!-- Feed -->
+  <div class="pg-all-item">
+    <div class="phone-frame">
+      <div class="phone-screen">
+        <div style="position:absolute;inset:0;border-radius:inherit;overflow:hidden;">
+          <div style="position:absolute;inset:0;background:linear-gradient(160deg, #0f1a2e 0%, #0a1628 40%, #162a4a 100%);"></div>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+            <span style="font-family:var(--font-display);font-size:1.8rem;font-weight:700;color:rgba(255,255,255,0.05);">morning run</span>
+          </div>
+          <div style="position:absolute;top:0;left:0;right:0;z-index:5;background:linear-gradient(180deg,rgba(0,0,0,0.6) 0%,transparent 100%);padding:10px 14px 28px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <span style="font-family:var(--font-mono);font-size:0.5rem;color:var(--gray-300);">9:41</span>
+              <span style="font-family:var(--font-mono);font-size:0.5rem;color:var(--gray-300);">&#9679;&#9679;&#9679;&#9679;</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div style="font-family:var(--font-display);font-weight:800;font-size:0.9rem;color:var(--amber);">ThisIsIt</div>
+              <div style="display:flex;gap:8px;">
+                <div style="width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.1);"></div>
+                <div style="width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.1);"></div>
+              </div>
+            </div>
+            <div style="display:flex;gap:16px;margin-top:10px;justify-content:center;">
+              <span style="font-size:0.65rem;color:var(--gray-500);">Following</span>
+              <span style="font-size:0.65rem;color:var(--white);font-weight:700;">For You</span>
+            </div>
+          </div>
+          <div style="position:absolute;top:80px;left:50%;transform:translateX(-50%);z-index:5;background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);border-radius:20px;padding:3px 10px;display:flex;align-items:center;gap:4px;border:1px solid rgba(240,165,0,0.2);">
+            <div class="timer-dot"></div>
+            <span style="font-family:var(--font-mono);font-size:0.5rem;color:var(--amber);">18:22:04</span>
+          </div>
+          <div style="position:absolute;right:10px;bottom:100px;z-index:5;display:flex;flex-direction:column;align-items:center;gap:14px;">
+            <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#4a90d9,#357abd);border:2px solid var(--white);display:flex;align-items:center;justify-content:center;font-size:0.5rem;color:var(--white);font-weight:600;">JK</div>
+            <div style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="#ff4d4d"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+            <div style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+            <div style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
+          </div>
+          <div style="position:absolute;bottom:0;left:0;right:0;z-index:5;background:linear-gradient(0deg,rgba(0,0,0,0.7) 0%,transparent 100%);padding:50px 14px 56px;">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+              <span style="font-size:0.75rem;font-weight:700;color:var(--white);">jake_runs</span>
+              <span style="font-family:var(--font-mono);font-size:0.45rem;color:var(--amber);background:rgba(240,165,0,0.15);padding:2px 5px;border-radius:3px;">18h left</span>
+            </div>
+            <p style="font-size:0.65rem;color:rgba(255,255,255,0.8);line-height:1.4;">6am. cold. worth it. this is it.</p>
+          </div>
+          <div style="position:absolute;bottom:0;left:0;right:0;height:44px;display:flex;align-items:center;justify-content:space-around;z-index:6;">
+            <svg viewBox="0 0 24 24" fill="var(--amber)" style="width:18px;height:18px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--gray-500)" stroke-width="2" style="width:18px;height:18px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--amber),#ffd666);display:flex;align-items:center;justify-content:center;margin-top:-4px;"><svg viewBox="0 0 24 24" fill="none" stroke="var(--bg)" stroke-width="2.5" style="width:16px;height:16px;"><circle cx="12" cy="12" r="4"/></svg></div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--gray-500)" stroke-width="2" style="width:18px;height:18px;"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--gray-500)" stroke-width="2" style="width:18px;height:18px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pg-all-label">Feed</div>
+  </div>
+
+  <!-- Capture -->
+  <div class="pg-all-item">
+    <div class="phone-frame">
+      <div class="phone-screen">
+        <div class="app-status-bar"><span>9:41</span><span>&#9679;&#9679;&#9679;&#9679;</span></div>
+        <div class="camera-screen">
+          <div class="camera-viewfinder">
+            <div class="camera-top-bar">
+              <div class="camera-pill" style="color:var(--amber);"><div style="display:flex;align-items:center;gap:4px;"><div class="timer-dot"></div>LIVE IN 24H</div></div>
+              <div class="camera-pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/></svg></div>
+            </div>
+            <div class="camera-grid"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div class="camera-center-text">capture<br>your now</div>
+          </div>
+          <div class="camera-controls">
+            <div class="camera-mode-tabs"><span>PHOTO</span><span class="active">VIDEO</span><span>LIVE</span><span>TEXT</span></div>
+            <div class="camera-bottom-row">
+              <div class="camera-secondary-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/></svg></div>
+              <div class="camera-shutter"><div class="camera-shutter-inner"></div></div>
+              <div class="camera-secondary-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pg-all-label">Capture</div>
+  </div>
+
+  <!-- Profile -->
+  <div class="pg-all-item">
+    <div class="phone-frame">
+      <div class="phone-screen">
+        <div class="app-status-bar"><span>9:41</span><span>&#9679;&#9679;&#9679;&#9679;</span></div>
+        <div class="app-header">
+          <div class="app-logo" style="font-size:0.85rem;color:var(--white);">Profile</div>
+          <div class="app-icon-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></div>
+        </div>
+        <div class="app-global-timer"><div class="timer-dot"></div><span>YOUR CONTENT RESETS IN 07:42:18</span></div>
+        <div class="profile-screen">
+          <div class="profile-cover"><div class="profile-avatar-large">WB</div></div>
+          <div class="profile-info">
+            <div class="profile-name">Will Brandin</div>
+            <div class="profile-handle">@willbrandin</div>
+            <div class="profile-bio">building things. sharing moments.<br>this is it.</div>
+            <div class="profile-stats">
+              <div class="profile-stat"><div class="profile-stat-num">4</div><div class="profile-stat-label">Today</div></div>
+              <div class="profile-stat"><div class="profile-stat-num">1.2k</div><div class="profile-stat-label">Followers</div></div>
+              <div class="profile-stat"><div class="profile-stat-num">342</div><div class="profile-stat-label">Following</div></div>
+            </div>
+          </div>
+          <div class="profile-today-label">Today's Posts</div>
+          <div class="profile-grid">
+            <div class="profile-grid-item grid-img-1"><div class="post-countdown-badge"><div class="timer-dot"></div>21h</div></div>
+            <div class="profile-grid-item grid-img-2"><div class="post-countdown-badge"><div class="timer-dot"></div>18h</div></div>
+            <div class="profile-grid-item grid-img-3"><div class="post-countdown-badge"><div class="timer-dot"></div>12h</div></div>
+            <div class="profile-grid-item grid-img-4"><div class="post-countdown-badge"><div class="timer-dot"></div>6h</div></div>
+          </div>
+        </div>
+        <div class="app-bottom-nav">
+          <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+          <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+          <div class="nav-capture"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="4"/></svg></div>
+          <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+          <div class="nav-item active"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        </div>
+      </div>
+    </div>
+    <div class="pg-all-label">Profile</div>
+  </div>
+
+  <!-- Discover -->
+  <div class="pg-all-item">
+    <div class="phone-frame">
+      <div class="phone-screen">
+        <div class="app-status-bar"><span>9:41</span><span>&#9679;&#9679;&#9679;&#9679;</span></div>
+        <div class="app-header">
+          <div class="app-logo" style="font-size:0.85rem;color:var(--white);">Discover</div>
+          <div class="app-icon-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></div>
+        </div>
+        <div class="app-global-timer"><div class="timer-dot"></div><span>TRENDING NOW &mdash; RESETS IN 07:42:18</span></div>
+        <div class="discover-screen">
+          <div class="discover-search"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Search today's moments...</div>
+          <div class="discover-trending-label">Trending Today</div>
+          <div class="discover-grid">
+            <div class="discover-grid-item"><div class="discover-overlay">1.2k</div></div>
+            <div class="discover-grid-item"><div class="discover-overlay">4.8k</div></div>
+            <div class="discover-grid-item"><div class="discover-overlay">892</div></div>
+            <div class="discover-grid-item"><div class="discover-overlay">2.1k</div></div>
+            <div class="discover-grid-item"><div class="discover-overlay">567</div></div>
+            <div class="discover-grid-item"><div class="discover-overlay">3.4k</div></div>
+          </div>
+        </div>
+        <div class="app-bottom-nav">
+          <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+          <div class="nav-item active"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="11" cy="11" r="8"/></svg></div>
+          <div class="nav-capture"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="4"/></svg></div>
+          <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+          <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        </div>
+      </div>
+    </div>
+    <div class="pg-all-label">Discover</div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- INDIVIDUAL SCREEN VIEWS                         -->
+<!-- ═══════════════════════════════════════════════ -->
+
+<!-- FEED -->
+<div class="pg-stage" id="view-feed">
+  <div class="pg-screen-wrapper visible">
+    <div class="pg-screen-title">Feed &mdash; Full-Screen Swipe</div>
+    <div class="pg-screen-desc">Each post fills the entire screen. Swipe up for next. Action rail on the right. Content-first, chrome-minimal.</div>
+    <div class="pg-screen-meta">
+      <span class="pg-tag amber">Following / For You</span>
+      <span class="pg-tag amber">Countdown Overlay</span>
+      <span class="pg-tag">Repost Action</span>
+      <span class="pg-tag">Swipe Navigation</span>
+    </div>
+    <div class="phone-frame">
+      <div class="phone-screen">
+        <div style="position:absolute;inset:0;border-radius:inherit;overflow:hidden;">
+          <div style="position:absolute;inset:0;background:linear-gradient(160deg, #0f1a2e 0%, #0a1628 40%, #162a4a 100%);"></div>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+            <span style="font-family:var(--font-display);font-size:2.2rem;font-weight:700;color:rgba(255,255,255,0.05);">morning run</span>
+          </div>
+          <div style="position:absolute;top:0;left:0;right:0;z-index:5;background:linear-gradient(180deg,rgba(0,0,0,0.6) 0%,transparent 100%);padding:14px 20px 36px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+              <span style="font-family:var(--font-mono);font-size:0.6rem;color:var(--gray-300);">9:41</span>
+              <span style="font-family:var(--font-mono);font-size:0.6rem;color:var(--gray-300);">&#9679;&#9679;&#9679;&#9679;</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div style="font-family:var(--font-display);font-weight:800;font-size:1.15rem;color:var(--amber);">ThisIsIt</div>
+              <div style="display:flex;gap:10px;">
+                <div style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.1);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </div>
+                <div style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.1);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;gap:24px;margin-top:14px;justify-content:center;">
+              <span style="font-size:0.8rem;color:var(--gray-500);font-weight:500;">Following</span>
+              <span style="font-size:0.8rem;color:var(--white);font-weight:700;position:relative;">For You<span style="position:absolute;bottom:-5px;left:0;right:0;height:2px;background:var(--amber);border-radius:1px;"></span></span>
+            </div>
+          </div>
+          <div style="position:absolute;top:108px;left:50%;transform:translateX(-50%);z-index:5;background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);border-radius:20px;padding:5px 14px;display:flex;align-items:center;gap:6px;border:1px solid rgba(240,165,0,0.2);">
+            <div class="timer-dot"></div>
+            <span style="font-family:var(--font-mono);font-size:0.6rem;color:var(--amber);">18:22:04</span>
+          </div>
+          <div style="position:absolute;right:14px;bottom:130px;z-index:5;display:flex;flex-direction:column;align-items:center;gap:20px;">
+            <div style="position:relative;">
+              <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#4a90d9,#357abd);border:2px solid var(--white);display:flex;align-items:center;justify-content:center;font-size:0.65rem;color:var(--white);font-weight:600;">JK</div>
+              <div style="position:absolute;bottom:-5px;left:50%;transform:translateX(-50%);width:18px;height:18px;border-radius:50%;background:var(--amber);display:flex;align-items:center;justify-content:center;font-size:0.55rem;color:var(--bg);font-weight:700;">+</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+              <div style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="#ff4d4d"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+              <span style="font-size:0.6rem;color:var(--white);font-weight:500;">247</span>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+              <div style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+              <span style="font-size:0.6rem;color:var(--white);font-weight:500;">38</span>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+              <div style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
+              <span style="font-size:0.6rem;color:var(--green);font-weight:500;">12</span>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+              <div style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></div>
+              <span style="font-size:0.6rem;color:var(--white);font-weight:500;">Share</span>
+            </div>
+          </div>
+          <div style="position:absolute;bottom:0;left:0;right:0;z-index:5;background:linear-gradient(0deg,rgba(0,0,0,0.7) 0%,transparent 100%);padding:70px 20px 70px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+              <span style="font-size:0.95rem;font-weight:700;color:var(--white);">jake_runs</span>
+              <span style="font-family:var(--font-mono);font-size:0.55rem;color:var(--amber);background:rgba(240,165,0,0.15);padding:2px 8px;border-radius:4px;">18h left</span>
+            </div>
+            <p style="font-size:0.8rem;color:rgba(255,255,255,0.8);line-height:1.4;margin-bottom:12px;">6am. cold. worth it. this is it.</p>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <div style="width:24px;height:3px;background:var(--amber);border-radius:2px;"></div>
+              <div style="width:24px;height:3px;background:var(--gray-700);border-radius:2px;"></div>
+              <div style="width:24px;height:3px;background:var(--gray-700);border-radius:2px;"></div>
+              <span style="font-family:var(--font-mono);font-size:0.5rem;color:var(--gray-500);margin-left:4px;">SWIPE UP</span>
+            </div>
+          </div>
+          <div style="position:absolute;bottom:0;left:0;right:0;height:54px;display:flex;align-items:center;justify-content:space-around;padding:0 10px;z-index:6;">
+            <svg viewBox="0 0 24 24" fill="var(--amber)" style="width:22px;height:22px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--gray-500)" stroke-width="2" style="width:22px;height:22px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--amber),#ffd666);display:flex;align-items:center;justify-content:center;margin-top:-6px;box-shadow:0 4px 20px rgba(240,165,0,0.3);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--bg)" stroke-width="2.5" style="width:18px;height:18px;"><circle cx="12" cy="12" r="4"/></svg></div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--gray-500)" stroke-width="2" style="width:22px;height:22px;"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--gray-500)" stroke-width="2" style="width:22px;height:22px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CAPTURE -->
+<div class="pg-stage" id="view-capture" style="display:none;">
+  <div class="pg-screen-wrapper visible">
+    <div class="pg-screen-title">Capture</div>
+    <div class="pg-screen-desc">Full-screen viewfinder with mode tabs. Photo, video, live, and text. The golden shutter button is the only color on screen.</div>
+    <div class="pg-screen-meta">
+      <span class="pg-tag amber">24H Timer Badge</span>
+      <span class="pg-tag">Photo / Video / Live / Text</span>
+      <span class="pg-tag">Rule of Thirds Grid</span>
+    </div>
+    <div class="phone-frame">
+      <div class="phone-screen">
+        <div class="app-status-bar"><span>9:41</span><span>&#9679;&#9679;&#9679;&#9679;</span></div>
+        <div class="camera-screen">
+          <div class="camera-viewfinder">
+            <div class="camera-top-bar">
+              <div class="camera-pill" style="color:var(--amber);"><div style="display:flex;align-items:center;gap:4px;"><div class="timer-dot"></div>LIVE IN 24H</div></div>
+              <div class="camera-pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/></svg></div>
+            </div>
+            <div class="camera-grid"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div class="camera-center-text">capture<br>your now</div>
+          </div>
+          <div class="camera-controls">
+            <div class="camera-mode-tabs"><span>PHOTO</span><span class="active">VIDEO</span><span>LIVE</span><span>TEXT</span></div>
+            <div class="camera-bottom-row">
+              <div class="camera-secondary-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/></svg></div>
+              <div class="camera-shutter"><div class="camera-shutter-inner"></div></div>
+              <div class="camera-secondary-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE -->
+<div class="pg-stage" id="view-profile" style="display:none;">
+  <div class="pg-screen-wrapper visible">
+    <div class="pg-screen-title">Profile</div>
+    <div class="pg-screen-desc">Today's posts in a grid. Stats persist (followers, following). Content count is "Today" only. Every grid item has a countdown badge.</div>
+    <div class="pg-screen-meta">
+      <span class="pg-tag amber">Today's Posts Grid</span>
+      <span class="pg-tag amber">Per-Post Countdown</span>
+      <span class="pg-tag">Persistent Stats</span>
+    </div>
+    <div class="phone-frame">
+      <div class="phone-screen">
+        <div class="app-status-bar"><span>9:41</span><span>&#9679;&#9679;&#9679;&#9679;</span></div>
+        <div class="app-header">
+          <div class="app-logo" style="font-size:0.95rem;color:var(--white);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Profile
+          </div>
+          <div class="app-icon-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></div>
+        </div>
+        <div class="app-global-timer"><div class="timer-dot"></div><span>YOUR CONTENT RESETS IN 07:42:18</span></div>
+        <div class="profile-screen">
+          <div class="profile-cover"><div class="profile-avatar-large">WB</div></div>
+          <div class="profile-info">
+            <div class="profile-name">Will Brandin</div>
+            <div class="profile-handle">@willbrandin</div>
+            <div class="profile-bio">building things. sharing moments.<br>this is it.</div>
+            <div class="profile-stats">
+              <div class="profile-stat"><div class="profile-stat-num">4</div><div class="profile-stat-label">Today</div></div>
+              <div class="profile-stat"><div class="profile-stat-num">1.2k</div><div class="profile-stat-label">Followers</div></div>
+              <div class="profile-stat"><div class="profile-stat-num">342</div><div class="profile-stat-label">Following</div></div>
+            </div>
+          </div>
+          <div class="profile-today-label">Today's Posts</div>
+          <div class="profile-grid">
+            <div class="profile-grid-item grid-img-1"><div class="post-countdown-badge"><div class="timer-dot"></div>21h</div></div>
+            <div class="profile-grid-item grid-img-2"><div class="post-countdown-badge"><div class="timer-dot"></div>18h</div></div>
+            <div class="profile-grid-item grid-img-3"><div class="post-countdown-badge"><div class="timer-dot"></div>12h</div></div>
+            <div class="profile-grid-item grid-img-4"><div class="post-countdown-badge"><div class="timer-dot"></div>6h</div></div>
+          </div>
+        </div>
+        <div class="app-bottom-nav">
+          <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+          <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+          <div class="nav-capture"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="4"/></svg></div>
+          <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+          <div class="nav-item active"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DISCOVER -->
+<div class="pg-stage" id="view-discover" style="display:none;">
+  <div class="pg-screen-wrapper visible">
+    <div class="pg-screen-title">Discover</div>
+    <div class="pg-screen-desc">Today's trending content ranked by reposts. Grid layout with engagement overlays. Search bar for finding today's moments.</div>
+    <div class="pg-screen-meta">
+      <span class="pg-tag amber">Repost-Ranked Trending</span>
+      <span class="pg-tag">Search Today</span>
+      <span class="pg-tag">Masonry Grid</span>
+    </div>
+    <div class="phone-frame">
+      <div class="phone-screen">
+        <div class="app-status-bar"><span>9:41</span><span>&#9679;&#9679;&#9679;&#9679;</span></div>
+        <div class="app-header">
+          <div class="app-logo" style="font-size:0.95rem;color:var(--white);">Discover</div>
+          <div class="app-icon-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></div>
+        </div>
+        <div class="app-global-timer"><div class="timer-dot"></div><span>TRENDING NOW &mdash; RESETS IN 07:42:18</span></div>
+        <div class="discover-screen">
+          <div class="discover-search"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Search today's moments...</div>
+          <div class="discover-trending-label">Trending Today</div>
+          <div class="discover-grid">
+            <div class="discover-grid-item"><div class="discover-overlay">1.2k</div></div>
+            <div class="discover-grid-item"><div class="discover-overlay">4.8k</div></div>
+            <div class="discover-grid-item"><div class="discover-overlay">892</div></div>
+            <div class="discover-grid-item"><div class="discover-overlay">2.1k</div></div>
+            <div class="discover-grid-item"><div class="discover-overlay">567</div></div>
+            <div class="discover-grid-item"><div class="discover-overlay">3.4k</div></div>
+          </div>
+        </div>
+        <div class="app-bottom-nav">
+          <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+          <div class="nav-item active"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="11" cy="11" r="8"/></svg></div>
+          <div class="nav-capture"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="4"/></svg></div>
+          <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+          <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── Footer ─── -->
+<div class="pg-footer">
+  ThisIsIt &mdash; UI Prototypes &mdash; v1.0
+</div>
+
+<!-- ─── Script ─── -->
+<script>
+  function showScreen(name) {
+    // Hide all views
+    document.getElementById('view-all').classList.remove('visible');
+    ['feed','capture','profile','discover'].forEach(id => {
+      document.getElementById('view-' + id).style.display = 'none';
+    });
+
+    // Show selected
+    if (name === 'all') {
+      document.getElementById('view-all').classList.add('visible');
+    } else {
+      document.getElementById('view-' + name).style.display = 'flex';
+    }
+
+    // Update nav buttons
+    document.querySelectorAll('.pg-nav-btn').forEach(btn => {
+      btn.classList.remove('active');
+      if (btn.textContent.trim().toLowerCase().replace(' ', '') === name ||
+          (name === 'all' && btn.textContent.trim() === 'All Screens')) {
+        btn.classList.add('active');
+      }
+    });
+  }
+
+  function updateCountdown() {
+    const now = new Date();
+    const midnight = new Date(now);
+    midnight.setHours(24, 0, 0, 0);
+    const diff = midnight - now;
+    const h = String(Math.floor(diff / 3600000)).padStart(2, '0');
+    const m = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+    const s = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+    document.getElementById('pg-countdown').textContent = h + ':' + m + ':' + s;
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+</script>
+
+</body>
+</html>
