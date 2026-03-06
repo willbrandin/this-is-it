@@ -126,6 +126,11 @@
     50% { opacity: 0.3; }
   }
 
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(200%); }
+  }
+
   /* ─── Screen Display ─── */
   .pg-stage {
     display: flex;
@@ -708,6 +713,7 @@
     <button class="pg-nav-btn active" onclick="showScreen('all')">All Screens</button>
     <button class="pg-nav-btn" onclick="showScreen('feed')">Feed</button>
     <button class="pg-nav-btn" onclick="showScreen('feed-v2')">Feed v2</button>
+    <button class="pg-nav-btn" onclick="showScreen('feed-v3')">Feed v3</button>
     <button class="pg-nav-btn" onclick="showScreen('capture')">Capture</button>
     <button class="pg-nav-btn" onclick="showScreen('profile')">Profile</button>
     <button class="pg-nav-btn" onclick="showScreen('discover')">Discover</button>
@@ -852,6 +858,92 @@
       </div>
     </div>
     <div class="pg-all-label">Feed v2</div>
+  </div>
+
+  <!-- Feed v3 — Tape Feed -->
+  <div class="pg-all-item">
+    <div class="phone-frame">
+      <div class="phone-screen">
+        <div style="position:absolute;inset:0;border-radius:inherit;overflow:hidden;background:#0a0a0c;">
+          <!-- Status bar -->
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 18px 4px;font-family:var(--font-mono);font-size:0.5rem;color:var(--gray-300);position:relative;z-index:5;">
+            <span>9:41</span><span>&#9679;&#9679;&#9679;&#9679;</span>
+          </div>
+          <!-- Header with REC dot -->
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 16px 6px;position:relative;z-index:5;">
+            <div style="display:flex;align-items:center;gap:6px;">
+              <div style="font-family:var(--font-display);font-weight:800;font-size:0.85rem;color:var(--amber);">ThisIsIt</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <div style="width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 1.5s infinite;"></div>
+              <span style="font-family:var(--font-mono);font-size:0.5rem;color:var(--red);">LIVE</span>
+            </div>
+          </div>
+          <!-- Channel tabs -->
+          <div style="display:flex;gap:0;border-bottom:1px solid var(--gray-800);padding:0 16px;position:relative;z-index:5;">
+            <div style="padding:6px 12px;font-size:0.55rem;color:var(--gray-500);font-family:var(--font-mono);">ALL</div>
+            <div style="padding:6px 12px;font-size:0.55rem;color:var(--amber);font-family:var(--font-mono);border-bottom:2px solid var(--amber);">FEED</div>
+            <div style="padding:6px 12px;font-size:0.55rem;color:var(--gray-500);font-family:var(--font-mono);">CLOSE</div>
+          </div>
+          <!-- Tape post 1 -->
+          <div style="margin:8px 10px;border-radius:8px;overflow:hidden;border:1px solid var(--gray-800);position:relative;z-index:5;">
+            <!-- Tape header -->
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:var(--bg-elevated);border-bottom:1px solid var(--gray-800);">
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div style="width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#4a90d9,#357abd);display:flex;align-items:center;justify-content:center;font-size:0.4rem;color:white;font-weight:600;">JK</div>
+                <span style="font-size:0.55rem;font-weight:600;color:var(--white);">jake_runs</span>
+              </div>
+              <span style="font-family:var(--font-mono);font-size:0.45rem;color:var(--amber);">18h</span>
+            </div>
+            <!-- Tape content -->
+            <div style="height:100px;background:linear-gradient(160deg, #0f1a2e 0%, #0a1628 40%, #162a4a 100%);position:relative;">
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+                <span style="font-family:var(--font-display);font-size:0.9rem;font-weight:700;color:rgba(255,255,255,0.04);">morning run</span>
+              </div>
+              <!-- Scanlines -->
+              <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,0.01) 2px,rgba(255,255,255,0.01) 4px);pointer-events:none;"></div>
+              <!-- REC indicator -->
+              <div style="position:absolute;top:6px;right:6px;display:flex;align-items:center;gap:3px;background:rgba(0,0,0,0.5);padding:2px 5px;border-radius:3px;">
+                <div style="width:4px;height:4px;border-radius:50%;background:var(--red);"></div>
+                <span style="font-family:var(--font-mono);font-size:0.4rem;color:var(--red);">REC</span>
+              </div>
+            </div>
+            <!-- Tape burn bar -->
+            <div style="height:3px;background:var(--gray-800);">
+              <div style="width:75%;height:100%;background:linear-gradient(90deg,var(--amber),#ff6b35);border-radius:0 2px 2px 0;"></div>
+            </div>
+          </div>
+          <!-- Tape post 2 (partial) -->
+          <div style="margin:0 10px 8px;border-radius:8px;overflow:hidden;border:1px solid var(--gray-800);position:relative;z-index:5;opacity:0.7;">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:var(--bg-elevated);border-bottom:1px solid var(--gray-800);">
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div style="width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#d94a7b,#bd3757);display:flex;align-items:center;justify-content:center;font-size:0.4rem;color:white;font-weight:600;">ML</div>
+                <span style="font-size:0.55rem;font-weight:600;color:var(--white);">maya_lens</span>
+              </div>
+              <span style="font-family:var(--font-mono);font-size:0.45rem;color:var(--red);">2h</span>
+            </div>
+            <div style="height:80px;background:linear-gradient(160deg, #2a1a0f 0%, #1f140a 40%, #3a2a1a 100%);position:relative;">
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+                <span style="font-family:var(--font-display);font-size:0.9rem;font-weight:700;color:rgba(255,255,255,0.04);">sunset</span>
+              </div>
+              <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,0.01) 2px,rgba(255,255,255,0.01) 4px);pointer-events:none;"></div>
+            </div>
+            <div style="height:3px;background:var(--gray-800);">
+              <div style="width:8%;height:100%;background:linear-gradient(90deg,var(--red),#ff4d4d);border-radius:0 2px 2px 0;"></div>
+            </div>
+          </div>
+          <!-- Bottom nav -->
+          <div style="position:absolute;bottom:0;left:0;right:0;height:44px;display:flex;align-items:center;justify-content:space-around;z-index:6;border-top:1px solid var(--gray-800);background:rgba(10,10,12,0.95);">
+            <svg viewBox="0 0 24 24" fill="var(--amber)" style="width:18px;height:18px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--gray-500)" stroke-width="2" style="width:18px;height:18px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--amber),#ffd666);display:flex;align-items:center;justify-content:center;margin-top:-4px;"><svg viewBox="0 0 24 24" fill="none" stroke="var(--bg)" stroke-width="2.5" style="width:16px;height:16px;"><circle cx="12" cy="12" r="4"/></svg></div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--gray-500)" stroke-width="2" style="width:18px;height:18px;"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--gray-500)" stroke-width="2" style="width:18px;height:18px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pg-all-label">Feed v3</div>
   </div>
 
   <!-- Capture -->
@@ -1183,6 +1275,228 @@
   </div>
 </div>
 
+<!-- FEED V3 — Tape Feed -->
+<div class="pg-stage" id="view-feed-v3" style="display:none;">
+  <div class="pg-screen-wrapper visible">
+    <div class="pg-screen-title">Feed v3 &mdash; Tape Feed</div>
+    <div class="pg-screen-desc">Lo-fi camcorder aesthetic. Posts are &ldquo;tapes&rdquo; in a vertical scroll with scanlines, REC indicators, and a burn bar showing time remaining. Channel tabs filter between all, your feed, and close friends. Each tape depletes as its 24h runs out.</div>
+    <div class="pg-screen-meta">
+      <span class="pg-tag amber">Tape Aesthetic</span>
+      <span class="pg-tag amber">Burn Bar Timer</span>
+      <span class="pg-tag">Channel Tabs</span>
+      <span class="pg-tag">Vertical Scroll</span>
+    </div>
+    <div class="phone-frame">
+      <div class="phone-screen">
+        <div style="position:absolute;inset:0;border-radius:inherit;overflow:hidden;background:#0a0a0c;display:flex;flex-direction:column;">
+          <!-- Status bar -->
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 24px 6px;font-family:var(--font-mono);font-size:0.6rem;color:var(--gray-300);flex-shrink:0;">
+            <span>9:41</span><span>&#9679;&#9679;&#9679;&#9679;</span>
+          </div>
+          <!-- Header with REC -->
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 20px 10px;flex-shrink:0;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div style="font-family:var(--font-display);font-weight:800;font-size:1.15rem;color:var(--amber);">ThisIsIt</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="display:flex;align-items:center;gap:5px;background:rgba(255,77,77,0.1);border:1px solid rgba(255,77,77,0.2);border-radius:12px;padding:4px 10px;">
+                <div style="width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 1.5s infinite;"></div>
+                <span style="font-family:var(--font-mono);font-size:0.6rem;color:var(--red);font-weight:500;">LIVE</span>
+              </div>
+              <div style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.08);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              </div>
+            </div>
+          </div>
+          <!-- Channel tabs -->
+          <div style="display:flex;gap:0;border-bottom:1px solid var(--gray-800);padding:0 20px;flex-shrink:0;">
+            <div style="padding:8px 16px;font-size:0.65rem;color:var(--gray-500);font-family:var(--font-mono);letter-spacing:0.08em;cursor:pointer;">ALL</div>
+            <div style="padding:8px 16px;font-size:0.65rem;color:var(--amber);font-family:var(--font-mono);letter-spacing:0.08em;border-bottom:2px solid var(--amber);cursor:pointer;">FEED</div>
+            <div style="padding:8px 16px;font-size:0.65rem;color:var(--gray-500);font-family:var(--font-mono);letter-spacing:0.08em;cursor:pointer;">CLOSE FRIENDS</div>
+          </div>
+          <!-- Global countdown -->
+          <div style="display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 20px;background:linear-gradient(90deg, rgba(240,165,0,0.05), rgba(240,165,0,0.02));flex-shrink:0;">
+            <div class="timer-dot"></div>
+            <span style="font-family:var(--font-mono);font-size:0.6rem;color:var(--gray-500);letter-spacing:0.05em;">DAILY RESET</span>
+            <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--amber);font-weight:600;">18:22:04</span>
+          </div>
+          <!-- Scrollable tape feed -->
+          <div style="flex:1;overflow-y:auto;padding:6px 14px 70px;">
+            <!-- TAPE 1 — Active post, plenty of time -->
+            <div style="margin-bottom:12px;border-radius:12px;overflow:hidden;border:1px solid rgba(240,165,0,0.1);background:var(--bg-elevated);position:relative;">
+              <!-- Tape header -->
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:rgba(255,255,255,0.02);border-bottom:1px solid var(--gray-800);">
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#4a90d9,#357abd);border:2px solid rgba(240,165,0,0.2);display:flex;align-items:center;justify-content:center;font-size:0.55rem;color:var(--white);font-weight:600;">JK</div>
+                  <div style="display:flex;flex-direction:column;">
+                    <span style="font-size:0.8rem;font-weight:700;color:var(--white);">jake_runs</span>
+                    <span style="font-family:var(--font-mono);font-size:0.5rem;color:var(--gray-500);">2h ago</span>
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <div style="font-family:var(--font-mono);font-size:0.6rem;color:var(--amber);background:rgba(240,165,0,0.08);padding:3px 8px;border-radius:6px;border:1px solid rgba(240,165,0,0.15);">18h left</div>
+                </div>
+              </div>
+              <!-- Tape content (the "footage") -->
+              <div style="height:200px;background:linear-gradient(160deg, #0f1a2e 0%, #0a1628 40%, #162a4a 100%);position:relative;overflow:hidden;">
+                <!-- Faint content label -->
+                <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+                  <span style="font-family:var(--font-display);font-size:2rem;font-weight:700;color:rgba(255,255,255,0.03);">morning run</span>
+                </div>
+                <!-- Scanlines overlay -->
+                <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,0.008) 3px,rgba(255,255,255,0.008) 6px);pointer-events:none;z-index:1;"></div>
+                <!-- VHS tracking glitch line -->
+                <div style="position:absolute;top:38%;left:0;right:0;height:1px;background:rgba(255,255,255,0.06);z-index:2;"></div>
+                <!-- REC indicator -->
+                <div style="position:absolute;top:10px;left:10px;display:flex;align-items:center;gap:4px;z-index:3;">
+                  <div style="width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 1.5s infinite;"></div>
+                  <span style="font-family:var(--font-mono);font-size:0.55rem;color:var(--red);text-shadow:0 0 4px rgba(255,77,77,0.4);">REC</span>
+                </div>
+                <!-- Timecode -->
+                <div style="position:absolute;top:10px;right:10px;z-index:3;">
+                  <span style="font-family:var(--font-mono);font-size:0.55rem;color:rgba(255,255,255,0.3);">00:02:14:07</span>
+                </div>
+                <!-- Bottom info overlay -->
+                <div style="position:absolute;bottom:0;left:0;right:0;z-index:3;background:linear-gradient(0deg,rgba(0,0,0,0.7) 0%,transparent 100%);padding:30px 14px 12px;">
+                  <p style="font-size:0.85rem;color:rgba(255,255,255,0.9);line-height:1.4;margin-bottom:4px;">6am. cold. worth it. this is it.</p>
+                </div>
+              </div>
+              <!-- Burn bar — the tape depleting -->
+              <div style="height:4px;background:var(--gray-800);position:relative;">
+                <div style="width:75%;height:100%;background:linear-gradient(90deg,var(--amber),#e8940a);border-radius:0 2px 2px 0;position:relative;overflow:hidden;">
+                  <!-- Shimmer animation -->
+                  <div style="position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.15) 50%,transparent 100%);animation:shimmer 2s infinite;"></div>
+                </div>
+              </div>
+              <!-- Tape actions -->
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(255,255,255,0.01);">
+                <div style="display:flex;gap:16px;">
+                  <div style="display:flex;align-items:center;gap:4px;cursor:pointer;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="#ff4d4d"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    <span style="font-family:var(--font-mono);font-size:0.6rem;color:var(--gray-300);">247</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:4px;cursor:pointer;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--gray-300)" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    <span style="font-family:var(--font-mono);font-size:0.6rem;color:var(--gray-300);">38</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:4px;cursor:pointer;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                    <span style="font-family:var(--font-mono);font-size:0.6rem;color:var(--green);">12</span>
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:4px;cursor:pointer;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--gray-500)" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- TAPE 2 — Expiring soon, urgent -->
+            <div style="margin-bottom:12px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,77,77,0.15);background:var(--bg-elevated);position:relative;">
+              <!-- Urgent glow -->
+              <div style="position:absolute;inset:0;border-radius:12px;box-shadow:inset 0 0 30px rgba(255,77,77,0.03);pointer-events:none;z-index:0;"></div>
+              <!-- Tape header -->
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:rgba(255,77,77,0.02);border-bottom:1px solid var(--gray-800);position:relative;z-index:1;">
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#d94a7b,#bd3757);border:2px solid rgba(255,77,77,0.2);display:flex;align-items:center;justify-content:center;font-size:0.55rem;color:var(--white);font-weight:600;">ML</div>
+                  <div style="display:flex;flex-direction:column;">
+                    <span style="font-size:0.8rem;font-weight:700;color:var(--white);">maya_lens</span>
+                    <span style="font-family:var(--font-mono);font-size:0.5rem;color:var(--gray-500);">22h ago</span>
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <div style="font-family:var(--font-mono);font-size:0.6rem;color:var(--red);background:rgba(255,77,77,0.1);padding:3px 8px;border-radius:6px;border:1px solid rgba(255,77,77,0.2);animation:pulse 1.5s infinite;">2h left</div>
+                </div>
+              </div>
+              <!-- Tape content -->
+              <div style="height:160px;background:linear-gradient(160deg, #2a1a0f 0%, #1f140a 40%, #3a2a1a 100%);position:relative;overflow:hidden;">
+                <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+                  <span style="font-family:var(--font-display);font-size:1.8rem;font-weight:700;color:rgba(255,255,255,0.03);">golden hour</span>
+                </div>
+                <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,0.008) 3px,rgba(255,255,255,0.008) 6px);pointer-events:none;z-index:1;"></div>
+                <!-- Heavier glitch for expiring content -->
+                <div style="position:absolute;top:25%;left:0;right:0;height:2px;background:rgba(255,77,77,0.08);z-index:2;"></div>
+                <div style="position:absolute;top:65%;left:0;right:0;height:1px;background:rgba(255,255,255,0.04);z-index:2;"></div>
+                <div style="position:absolute;top:10px;left:10px;display:flex;align-items:center;gap:4px;z-index:3;">
+                  <div style="width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 1.5s infinite;"></div>
+                  <span style="font-family:var(--font-mono);font-size:0.55rem;color:var(--red);text-shadow:0 0 4px rgba(255,77,77,0.4);">REC</span>
+                </div>
+                <div style="position:absolute;top:10px;right:10px;z-index:3;">
+                  <span style="font-family:var(--font-mono);font-size:0.55rem;color:rgba(255,255,255,0.3);">00:21:47:33</span>
+                </div>
+                <!-- Fading/burning overlay for expiring content -->
+                <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(255,77,77,0.04) 0%,transparent 40%);pointer-events:none;z-index:2;"></div>
+                <div style="position:absolute;bottom:0;left:0;right:0;z-index:3;background:linear-gradient(0deg,rgba(0,0,0,0.7) 0%,transparent 100%);padding:30px 14px 12px;">
+                  <p style="font-size:0.85rem;color:rgba(255,255,255,0.9);line-height:1.4;">caught the last light. won&rsquo;t see this again.</p>
+                </div>
+              </div>
+              <!-- Burn bar — almost depleted -->
+              <div style="height:4px;background:var(--gray-800);position:relative;">
+                <div style="width:8%;height:100%;background:linear-gradient(90deg,var(--red),#ff6b6b);border-radius:0 2px 2px 0;animation:pulse 1.5s infinite;"></div>
+              </div>
+              <!-- Tape actions -->
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(255,255,255,0.01);position:relative;z-index:1;">
+                <div style="display:flex;gap:16px;">
+                  <div style="display:flex;align-items:center;gap:4px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gray-300)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    <span style="font-family:var(--font-mono);font-size:0.6rem;color:var(--gray-300);">1.2k</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:4px;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--gray-300)" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    <span style="font-family:var(--font-mono);font-size:0.6rem;color:var(--gray-300);">84</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:4px;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                    <span style="font-family:var(--font-mono);font-size:0.6rem;color:var(--green);">56</span>
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:4px;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--gray-500)" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- TAPE 3 — Third post, partial view -->
+            <div style="margin-bottom:12px;border-radius:12px;overflow:hidden;border:1px solid var(--gray-800);background:var(--bg-elevated);position:relative;">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:rgba(255,255,255,0.02);border-bottom:1px solid var(--gray-800);">
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#34d399,#059669);border:2px solid rgba(52,211,153,0.2);display:flex;align-items:center;justify-content:center;font-size:0.55rem;color:var(--white);font-weight:600;">TC</div>
+                  <div style="display:flex;flex-direction:column;">
+                    <span style="font-size:0.8rem;font-weight:700;color:var(--white);">thecook</span>
+                    <span style="font-family:var(--font-mono);font-size:0.5rem;color:var(--gray-500);">6h ago</span>
+                  </div>
+                </div>
+                <div style="font-family:var(--font-mono);font-size:0.6rem;color:var(--amber);background:rgba(240,165,0,0.08);padding:3px 8px;border-radius:6px;border:1px solid rgba(240,165,0,0.15);">12h left</div>
+              </div>
+              <div style="height:100px;background:linear-gradient(160deg, #0f2a1a 0%, #0a1f14 40%, #1a3a2a 100%);position:relative;overflow:hidden;">
+                <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+                  <span style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:rgba(255,255,255,0.03);">late night ramen</span>
+                </div>
+                <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,0.008) 3px,rgba(255,255,255,0.008) 6px);pointer-events:none;"></div>
+                <div style="position:absolute;top:8px;left:8px;display:flex;align-items:center;gap:4px;z-index:3;">
+                  <div style="width:5px;height:5px;border-radius:50%;background:var(--red);"></div>
+                  <span style="font-family:var(--font-mono);font-size:0.5rem;color:var(--red);">REC</span>
+                </div>
+              </div>
+              <div style="height:4px;background:var(--gray-800);">
+                <div style="width:50%;height:100%;background:linear-gradient(90deg,var(--amber),#e8940a);border-radius:0 2px 2px 0;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom nav -->
+          <div style="position:absolute;bottom:0;left:0;right:0;height:54px;display:flex;align-items:center;justify-content:space-around;padding:0 10px;border-top:1px solid var(--gray-800);background:rgba(10,10,12,0.95);z-index:5;border-radius:0 0 calc(var(--phone-radius) - 2px) calc(var(--phone-radius) - 2px);">
+            <svg viewBox="0 0 24 24" fill="var(--amber)" style="width:22px;height:22px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--gray-500)" stroke-width="2" style="width:22px;height:22px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--amber),#ffd666);display:flex;align-items:center;justify-content:center;margin-top:-6px;box-shadow:0 4px 20px rgba(240,165,0,0.3);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--bg)" stroke-width="2.5" style="width:18px;height:18px;"><circle cx="12" cy="12" r="4"/></svg></div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--gray-500)" stroke-width="2" style="width:22px;height:22px;"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--gray-500)" stroke-width="2" style="width:22px;height:22px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- CAPTURE -->
 <div class="pg-stage" id="view-capture" style="display:none;">
   <div class="pg-screen-wrapper visible">
@@ -1324,7 +1638,7 @@
   function showScreen(name) {
     // Hide all views
     document.getElementById('view-all').classList.remove('visible');
-    ['feed','feed-v2','capture','profile','discover'].forEach(id => {
+    ['feed','feed-v2','feed-v3','capture','profile','discover'].forEach(id => {
       document.getElementById('view-' + id).style.display = 'none';
     });
 
